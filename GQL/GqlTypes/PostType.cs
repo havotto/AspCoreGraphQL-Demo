@@ -13,6 +13,7 @@ namespace AspCoreGraphQL.GQL.GqlTypes
             this.Field(p => p.Title).Description("Post title");
             this.Field(p => p.Text).Description("Post text");
             this.Field<ListGraphType<CommentType>>("comments", resolve: context=>db.Comments.Where(c=>c.PostId == context.Source.Id));
+            Field<PostTypeEnumType>(nameof(Post.Type));
         }
     }
 }

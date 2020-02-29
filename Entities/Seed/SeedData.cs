@@ -14,6 +14,7 @@ namespace AspCoreGraphQL.Entities.Seed
                 Id=2,
                 Title="Post2",
                 Text="Post2 text",
+                Type=EPostType.Series,
             }
 
         };
