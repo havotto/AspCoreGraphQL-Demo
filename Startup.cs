@@ -11,6 +11,7 @@ using GraphQL.Server;
 using GraphQL.Server.Ui.Playground;
 using AspCoreGraphQL.GQL.GqlSchema;
 using AspCoreGraphQL.Entities.Context;
+using AspCoreGraphQL.GQL;
 
 namespace AspCoreGraphQL
 {
@@ -32,7 +33,8 @@ namespace AspCoreGraphQL
             services.AddScoped<AppSchema>();
             services.AddGraphQL(options => options.ExposeExceptions = false)
             .AddGraphTypes(ServiceLifetime.Scoped)
-            .AddDataLoader();
+            .AddDataLoader()
+            .AddValueConverters();
 
             services.AddControllers(o => o.EnableEndpointRouting = false)
             .AddNewtonsoftJson(o => o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
@@ -65,4 +67,6 @@ namespace AspCoreGraphQL
             app.UseMvc();
         }
     }
+
+
 }
