@@ -21,7 +21,7 @@ namespace AspCoreGraphQL.GQL.GqlTypes
                 {
                     var loader = dataLoader.Context.GetOrAddCollectionBatchLoader<int, Comment>("postComments", async keys =>
                     {
-                        var comments = await db.Comments.Where(c => keys.Contains(c.Id)).ToListAsync();
+                        var comments = await db.Comments.Where(c => keys.Contains(c.PostId)).ToListAsync();
                         return comments.ToLookup(c => c.PostId);
                     });
                     return loader.LoadAsync(context.Source.Id);
