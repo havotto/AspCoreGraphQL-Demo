@@ -1,18 +1,16 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using AspCoreGraphQL.Entities.Context;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using GraphQL;
+using GraphQL.Server;
+using GraphQL.Server.Ui.Playground;
+using AspCoreGraphQL.GQL.GqlSchema;
+using AspCoreGraphQL.Entities.Context;
 
 namespace AspCoreGraphQL
 {
@@ -29,8 +27,21 @@ namespace AspCoreGraphQL
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(b => b.UseSqlite(Program.DbConnection).EnableSensitiveDataLogging());
-            services.AddControllers()
-            .AddNewtonsoftJson(o=>o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+
+            services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
+            services.AddScoped<AppSchema>();
+            services.AddGraphQL(options => options.ExposeExceptions = false)
+            .AddGraphTypes(ServiceLifetime.Scoped);
+
+            services.AddControllers(o => o.EnableEndpointRouting = false)
+            .AddNewtonsoftJson(o => o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+
+            // GraphQL middleware reads requeststream synchronously:
+            //   at Newtonsoft.Json.JsonSerializer.Deserialize[T](JsonReader reader)
+            //   at GraphQL.Server.Transports.AspNetCore.GraphQLHttpMiddleware`1.Deserialize[T](Stream s)
+            //   at GraphQL.Server.Transports.AspNetCore.GraphQLHttpMiddleware`1.InvokeAsync(HttpContext context)
+            services.Configure<KestrelServerOptions>(options => options.AllowSynchronousIO = true);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,15 +51,17 @@ namespace AspCoreGraphQL
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            /*
+                        app.UseRouting();
+                        app.UseAuthorization();
+                        app.UseEndpoints(endpoints =>
+                        {
+                            endpoints.MapControllers();
+                        });
+            /**/
+            app.UseGraphQL<AppSchema>();
+            app.UseGraphQLPlayground(options: new GraphQLPlaygroundOptions());
+            app.UseMvc();
         }
     }
 }
