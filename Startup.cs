@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using AspCoreGraphQL.Entities.Context;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace AspCoreGraphQL
 {
@@ -28,7 +29,8 @@ namespace AspCoreGraphQL
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(b => b.UseSqlite(Program.DbConnection).EnableSensitiveDataLogging());
-            services.AddControllers();
+            services.AddControllers()
+            .AddNewtonsoftJson(o=>o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
