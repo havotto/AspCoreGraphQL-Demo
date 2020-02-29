@@ -31,7 +31,8 @@ namespace AspCoreGraphQL
             services.AddScoped<IDependencyResolver>(s => new FuncDependencyResolver(s.GetRequiredService));
             services.AddScoped<AppSchema>();
             services.AddGraphQL(options => options.ExposeExceptions = false)
-            .AddGraphTypes(ServiceLifetime.Scoped);
+            .AddGraphTypes(ServiceLifetime.Scoped)
+            .AddDataLoader();
 
             services.AddControllers(o => o.EnableEndpointRouting = false)
             .AddNewtonsoftJson(o => o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
