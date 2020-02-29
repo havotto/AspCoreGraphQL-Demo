@@ -8,7 +8,8 @@ namespace AspCoreGraphQL.GQL.GqlQueries
     {
         public AppQuery(DataContext db)
         {
-            Field<ListGraphType<PostType>>("posts", resolve: context=>db.Posts);
+            Field<ListGraphType<PostType>>("posts", resolve: context => db.Posts);
+            Field<ListGraphType<CommentType>>("comments", resolve: context => db.Comments);
         }
     }
 }
