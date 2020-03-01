@@ -14,6 +14,7 @@ namespace AspCoreGraphQL.GQL.GqlTypes
             this.Field(p => p.Id, type: typeof(IdGraphType)).Description("Post ID");
             this.Field(p => p.Title).Description("Post title");
             this.Field(p => p.Text).Description("Post text");
+            this.Field(p => p.AverageRating, nullable: true).Description("Post rating");
             Field<PostTypeEnumType>(nameof(Post.Type));
             this.Field<ListGraphType<CommentType>>(
                 "comments",

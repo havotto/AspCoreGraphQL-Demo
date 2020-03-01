@@ -10,6 +10,7 @@ namespace AspCoreGraphQL.Entities
         [Required(ErrorMessage = "Text is required")]
         public string Text { get; set; }
         public EPostType Type { get; set; }
+        public double? AverageRating { get; set; }
     }
 
     public enum EPostType

@@ -9,6 +9,7 @@ namespace AspCoreGraphQL.Entities.Seed
                 Id=1,
                 Title="Post1",
                 Text="Post1 text",
+                AverageRating = 4.3,
             },
             new Post{
                 Id=2,
