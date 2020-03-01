@@ -5,6 +5,8 @@ This demo shows how to create GraphQL queries and mutations, using dataloders fo
 It is based on what I have learned in CodeMaze's GraphQL tutorial series:
 https://code-maze.com/graphql-asp-net-core-tutorial/
 
+http://localhost:5000/ui/playground
+
 ## Tools
  - ASP.NET Core 3.1
  - EF Core 3.1
