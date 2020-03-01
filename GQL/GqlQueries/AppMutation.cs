@@ -43,6 +43,25 @@ namespace AspCoreGraphQL.GQL.GqlQueries
                     return dbPost;
                 }
             );
+            Field<StringGraphType>(
+                "deletePost",
+                arguments: new QueryArguments(
+                    new QueryArgument<NonNullGraphType<IdGraphType>> { Name = "postId" }
+                ),
+                resolve: context =>
+                {
+                    var postId = context.GetArgument<int>("postId");
+                    var dbPost = db.Posts.Find(postId);
+                    if (dbPost == null)
+                    {
+                        context.Errors.Add(new GraphQL.ExecutionError($"Could not find post with id: {postId}"));
+                        return null;
+                    }
+                    db.Posts.Remove(dbPost);
+                    db.SaveChanges();
+                    return "OK";
+                }
+            );
         }
     }
 }
