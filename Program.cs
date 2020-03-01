@@ -33,6 +33,8 @@ namespace AspCoreGraphQL
                     var comments = SeedData.Comment;
                     db.AddRange(posts);
                     db.AddRange(comments);
+                    db.AddRange(SeedData.PostTags);
+                    db.AddRange(SeedData.Tags);
                     db.SaveChanges();
                 }
 
