@@ -29,8 +29,10 @@ namespace AspCoreGraphQL
                 {
                     var db = scope.ServiceProvider.GetRequiredService<DataContext>();
                     db.Database.EnsureCreated();
-                    var posts = SeedData.Posts;
-                    db.AddRange(posts);
+                    db.AddRange(SeedData.Posts);
+                    db.AddRange(SeedData.Comments);
+                    db.AddRange(SeedData.PostTags);
+                    db.AddRange(SeedData.Tags);
                     db.SaveChanges();
                 }
 
