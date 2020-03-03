@@ -16,6 +16,7 @@ using Newtonsoft.Json;
 using HotChocolate;
 using HotChocolate.AspNetCore;
 using AspCoreGraphQL.GraphQL;
+using AspCoreGraphQL.GraphQL.Resolvers;
 
 namespace AspCoreGraphQL
 {
@@ -38,6 +39,7 @@ namespace AspCoreGraphQL
             services.AddGraphQL(sp => SchemaBuilder.New()
                                                    .AddServices(sp)
                                                    .AddQueryType<Query>()
+                                                   .BindResolver<PostResolvers>()
                                                    .Create());
         }
 
