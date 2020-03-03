@@ -13,6 +13,9 @@ using Microsoft.Extensions.Logging;
 using AspCoreGraphQL.Entities.Context;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using HotChocolate;
+using AspCoreGraphQL.GraphQL.Types;
+using HotChocolate.AspNetCore;
 
 namespace AspCoreGraphQL
 {
@@ -31,6 +34,12 @@ namespace AspCoreGraphQL
             services.AddDbContext<DataContext>(b => b.UseSqlite(Program.DbConnection).EnableSensitiveDataLogging());
             services.AddControllers()
             .AddNewtonsoftJson(o=>o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+
+            services.AddGraphQL(sp => SchemaBuilder.New()
+                                                   .AddServices(sp)
+                                                   .AddQueryType<QueryType>()
+                                                   .AddType<PostType>()
+                                                   .Create());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,6 +53,9 @@ namespace AspCoreGraphQL
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseGraphQL("/graphql");
+            app.UsePlayground("/graphql", "/graphql/playground");
 
             app.UseEndpoints(endpoints =>
             {
