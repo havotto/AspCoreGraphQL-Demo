@@ -12,6 +12,6 @@ namespace AspCoreGraphQL.GraphQL
             this.db = db;
         }
 
-        public IQueryable<Post> GetPosts() => db.Posts;
+        public IQueryable<Post> Posts() => db.Posts;
     }
 }

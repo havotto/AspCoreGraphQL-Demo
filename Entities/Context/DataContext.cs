@@ -7,12 +7,12 @@ namespace AspCoreGraphQL.Entities.Context
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
         }
-
+#nullable disable
         public DbSet<Post> Posts { get; private set; }
         public DbSet<Comment> Comments { get; private set; }
         public DbSet<Tag> Tags { get; private set; }
         public DbSet<PostTag> PostTags { get; set; }
-
+#nullable restore
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Post>(e =>

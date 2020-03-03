@@ -47,7 +47,7 @@ namespace AspCoreGraphQL
                     webBuilder.UseStartup<Startup>();
                 });
 
-        public static SqliteConnection DbConnection;
+        public static SqliteConnection? DbConnection;
 
     }
 }

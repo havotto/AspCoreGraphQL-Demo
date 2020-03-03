@@ -14,8 +14,8 @@ using AspCoreGraphQL.Entities.Context;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using HotChocolate;
-using AspCoreGraphQL.GraphQL.Types;
 using HotChocolate.AspNetCore;
+using AspCoreGraphQL.GraphQL;
 
 namespace AspCoreGraphQL
 {
@@ -37,8 +37,7 @@ namespace AspCoreGraphQL
 
             services.AddGraphQL(sp => SchemaBuilder.New()
                                                    .AddServices(sp)
-                                                   .AddQueryType<QueryType>()
-                                                   .AddType<PostType>()
+                                                   .AddQueryType<Query>()
                                                    .Create());
         }
 
