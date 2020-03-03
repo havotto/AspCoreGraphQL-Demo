@@ -6,11 +6,35 @@ namespace AspCoreGraphQL.Entities.Seed
     {
         public static readonly List<Post> Posts = new List<Post>{
             new Post{
+                Id=1,
                 Title="Post1",
                 Text="Post1 text",
-            }
+            },
+            new Post{
+                Id=2,
+                Title="Post2",
+                Text="Post2 text",
+            },
         };
 
+        public static readonly List<Comment> Comments = new List<Comment>{
+            new Comment{
+                PostId=1,
+                Text="Post1 comment1 text",
+            },
+            new Comment{
+                PostId=1,
+                Text="Post1 comment2 text",
+            },
+            new Comment{
+                PostId=2,
+                Text="Post2 comment1 text",
+            },
+            new Comment{
+                PostId=2,
+                Text="Post2 comment3 text",
+            },
+        };
         public static readonly List<Tag> Tags = new List<Tag>{
             new Tag{
                 Id=1, Name="Tag1"
