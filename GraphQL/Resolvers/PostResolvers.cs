@@ -1,11 +1,15 @@
 using System;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using AspCoreGraphQL.Entities;
 using AspCoreGraphQL.Entities.Context;
 using HotChocolate;
+using HotChocolate.DataLoader;
+using HotChocolate.Resolvers;
 using HotChocolate.Types;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace AspCoreGraphQL.GraphQL.Resolvers
@@ -33,11 +37,16 @@ namespace AspCoreGraphQL.GraphQL.Resolvers
             this.httpContextAccessor = httpContextAccessor;
             this.logger = logger;
         }
-        public IQueryable<Comment> Comments([Parent]Post post)
+        public async Task<Comment[]> Comments([Parent]Post post, IResolverContext context)
         {
-            var dbFactory = (ScopedDbContextFactory)(httpContextAccessor.HttpContext.Items["dbFactory"]);
-            var db = dbFactory.Create();
-            return db.Comments.Where(c => c.PostId == post.Id);
+            var dataLoader = context.GroupDataLoader<int, Comment>("postComments", async keys =>
+            {
+                var dbFactory = (ScopedDbContextFactory)(httpContextAccessor.HttpContext.Items["dbFactory"]);
+                var db = dbFactory.Create();
+                var comments = await db.Comments.Where(c => keys.Contains(c.PostId)).ToListAsync();
+                return comments.ToLookup(c => c.PostId);
+            });
+            return await dataLoader.LoadAsync(post.Id, CancellationToken.None);
         }
     }
 }

@@ -43,6 +43,7 @@ namespace AspCoreGraphQL
             services.AddControllers()
             .AddNewtonsoftJson(o => o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
+            services.AddDataLoaderRegistry();
             services.AddGraphQL(sp => SchemaBuilder.New()
                                                    .AddServices(sp)
                                                    .AddQueryType<Query>()
