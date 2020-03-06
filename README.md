@@ -1,15 +1,14 @@
 # AspCoreGraphQL-Demo
 
-This demo shows how to create GraphQL queries and mutations, using dataloders for efficient queries.
+Shows a solution for GraphQL executor's DataContext concurrency problem.
 
-It is based on what I have learned in CodeMaze's GraphQL tutorial series:
-https://code-maze.com/graphql-asp-net-core-tutorial/
+http://localhost:5000/graphql/playground
 
 ## Tools
  - ASP.NET Core 3.1
  - EF Core 3.1
  - SQLite
- - GraphQL.NET
+ - HotChocolate
 
 ## Domain
 Post, Comment, Tag
