@@ -48,5 +48,22 @@ namespace AspCoreGraphQL.GraphQL.Resolvers
             });
             return await dataLoader.LoadAsync(post.Id, CancellationToken.None);
         }
+
+        public async Task<Tag[]> Tags([Parent]Post post, IResolverContext context)
+        {
+            var dataLoader = context.GroupDataLoader<int, Tag>("postTags", async keys =>
+            {
+                var dbFactory = (ScopedDbContextFactory)(httpContextAccessor.HttpContext.Items["dbFactory"]);
+                var db = dbFactory.Create();
+                var q = from pt in db.PostTags
+                        join t in db.Tags on pt.TagId equals t.Id
+                        where keys.Contains(pt.PostId)
+                        select new { pt.PostId, Tag = t };
+
+                var children = await q.ToListAsync();
+                return children.ToLookup(c => c.PostId, c => c.Tag);
+            });
+            return await dataLoader.LoadAsync(post.Id, CancellationToken.None);
+        }
     }
 }
