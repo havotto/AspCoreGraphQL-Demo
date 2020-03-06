@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using AspCoreGraphQL.Entities.Context;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -17,6 +16,8 @@ using HotChocolate;
 using HotChocolate.AspNetCore;
 using AspCoreGraphQL.GraphQL;
 using AspCoreGraphQL.GraphQL.Resolvers;
+using AspCoreGraphQL.Entities;
+using HotChocolate.Execution.Configuration;
 
 namespace AspCoreGraphQL
 {
@@ -33,14 +34,25 @@ namespace AspCoreGraphQL
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(b => b.UseSqlite(Program.DbConnection).EnableSensitiveDataLogging());
+            //this is transient, so that we can create a new one in every field resolver
+            services.AddDbContext<GraphQLDataContext>(b => b.UseSqlite(Program.DbConnection).EnableSensitiveDataLogging(), ServiceLifetime.Transient, ServiceLifetime.Transient);
+            services.AddScoped<ScopedDbContextFactory>();
+            services.AddHttpContextAccessor();
+
+
             services.AddControllers()
-            .AddNewtonsoftJson(o=>o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
+            .AddNewtonsoftJson(o => o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore);
 
             services.AddGraphQL(sp => SchemaBuilder.New()
                                                    .AddServices(sp)
                                                    .AddQueryType<Query>()
-                                                   .BindResolver<PostResolvers>()
-                                                   .Create());
+            .AddType<Post>()
+            .AddType<Comment>()
+            .AddType<PostResolvers>()
+                                                   .Create(), new QueryExecutionOptions
+                                                   {
+                                                       IncludeExceptionDetails = true,
+                                                   });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +67,7 @@ namespace AspCoreGraphQL
 
             app.UseAuthorization();
 
+            app.UseMiddleware<GraphQLDataContextMiddleware>();
             app.UseGraphQL("/graphql");
             app.UsePlayground("/graphql", "/graphql/playground");
 

@@ -1,17 +1,41 @@
+using System.Threading;
+using System;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace AspCoreGraphQL.Entities.Context
 {
     public class DataContext : DbContext
     {
-        public DataContext(DbContextOptions<DataContext> options) : base(options)
+        static long idCounter = 0;
+        long myId;
+        private readonly ILogger<DataContext> logger;
+
+        public DataContext(DbContextOptions<DataContext> options, ILogger<DataContext> logger) : base(options)
         {
+            myId = Interlocked.Increment(ref idCounter);
+            this.logger = logger;
+            logger.LogInformation("CREATE DB " + myId);
         }
+
+        public override void Dispose()
+        {
+            logger.LogInformation("DISPOSE DB " + myId);
+            base.Dispose();
+        }
+
+        public override ValueTask DisposeAsync()
+        {
+            logger.LogInformation("DISPOSE ASYNC DB " + myId);
+            return base.DisposeAsync();
+        }
+
 #nullable disable
-        public DbSet<Post> Posts { get; private set; }
-        public DbSet<Comment> Comments { get; private set; }
-        public DbSet<Tag> Tags { get; private set; }
-        public DbSet<PostTag> PostTags { get; set; }
+        public DbSet<Post> Posts => Set<Post>();
+        public DbSet<Comment> Comments => Set<Comment>();
+        public DbSet<Tag> Tags => Set<Tag>();
+        public DbSet<PostTag> PostTags => Set<PostTag>();
 #nullable restore
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
