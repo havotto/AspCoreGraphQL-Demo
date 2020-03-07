@@ -17,11 +17,13 @@ Post, Comment, Tag
 
 ### Comments with filter & sort
 
-```query {
+```
+query {
   comments(
     order_by: { id: ASC }, 
     where: { AND: [{ text_starts_with: "Post2" }, {id_lt: 4}] }) {
     id
     text
   }
-}```
+}
+```
