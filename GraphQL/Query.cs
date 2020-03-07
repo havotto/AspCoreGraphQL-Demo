@@ -13,29 +13,18 @@ using AspCoreGraphQL.Entities.Context;
 
 namespace AspCoreGraphQL.GraphQL
 {
-    public class Query
+    public class Query : ResolverBase
     {
-        private readonly IHttpContextAccessor httpContextAccessor;
         private readonly ILogger<Query> logger;
 
         public Query([Service] IHttpContextAccessor httpContextAccessor, [Service] ILogger<Query> logger)
+        : base(httpContextAccessor)
         {
-            this.httpContextAccessor = httpContextAccessor;
             this.logger = logger;
         }
 
-        public IQueryable<Post> Posts()
-        {
-            var dbFactoryFunc = (Func<DataContext>)(httpContextAccessor.HttpContext.Items["dbFactoryFunc"]);
-            var db = dbFactoryFunc();
-            return db.Posts;
-        }
+        public IQueryable<Post> Posts() => CreateDataContext().Posts;
 
-        public IQueryable<Comment> Comments()
-        {
-            var dbFactoryFunc = (Func<DataContext>)(httpContextAccessor.HttpContext.Items["dbFactoryFunc"]);
-            var db = dbFactoryFunc();
-            return db.Comments;
-        }
+        public IQueryable<Comment> Comments() => CreateDataContext().Comments;
     }
 }

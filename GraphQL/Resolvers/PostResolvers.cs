@@ -27,22 +27,20 @@ namespace AspCoreGraphQL.GraphQL.Resolvers
     //None of these solved that error when I return IQueryable
 
     [ExtendObjectType(Name = nameof(Post))]
-    public class PostResolvers
+    public class PostResolvers : ResolverBase
     {
-        private readonly IHttpContextAccessor httpContextAccessor;
         private readonly ILogger<PostResolvers> logger;
 
         public PostResolvers([Service] IHttpContextAccessor httpContextAccessor, [Service] ILogger<PostResolvers> logger)
+        : base(httpContextAccessor)
         {
-            this.httpContextAccessor = httpContextAccessor;
             this.logger = logger;
         }
         public async Task<Comment[]> Comments([Parent]Post post, IResolverContext context)
         {
             var dataLoader = context.GroupDataLoader<int, Comment>("postComments", async keys =>
             {
-                var dbFactoryFunc = (Func<DataContext>)(httpContextAccessor.HttpContext.Items["dbFactoryFunc"]);
-                var db = dbFactoryFunc();
+                var db = CreateDataContext();
                 var comments = await db.Comments.Where(c => keys.Contains(c.PostId)).ToListAsync();
                 return comments.ToLookup(c => c.PostId);
             });
@@ -53,8 +51,7 @@ namespace AspCoreGraphQL.GraphQL.Resolvers
         {
             var dataLoader = context.GroupDataLoader<int, Tag>("postTags", async keys =>
             {
-                var dbFactoryFunc = (Func<DataContext>)(httpContextAccessor.HttpContext.Items["dbFactoryFunc"]);
-                var db = dbFactoryFunc();
+                var db = CreateDataContext();
                 var q = from pt in db.PostTags
                         join t in db.Tags on pt.TagId equals t.Id
                         where keys.Contains(pt.PostId)
