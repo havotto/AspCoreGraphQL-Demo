@@ -26,5 +26,7 @@ namespace AspCoreGraphQL.GraphQL
         public IQueryable<Post> Posts() => CreateDataContext().Posts;
 
         public IQueryable<Comment> Comments() => CreateDataContext().Comments;
+
+        public IQueryable<Comment> PostComments(int postId) => CreateDataContext().Comments.Where(c => c.PostId == postId);
     }
 }
