@@ -7,9 +7,9 @@ using Microsoft.Extensions.Logging;
 
 namespace AspCoreGraphQL.GraphQL
 {
-
-    //this is responsible for creating a DI scope, and requesting a dbcontext factory,
-    //which can dispose the created dbcontexts at the end of the scope.
+    /// <summary>
+    /// This is responsible for creating a DI scope, and construct a dbcontext factory function.
+    /// </summary>
     public class GraphQLDataContextMiddleware
     {
         private readonly RequestDelegate next;
