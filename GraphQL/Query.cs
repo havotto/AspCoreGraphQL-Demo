@@ -25,6 +25,8 @@ namespace AspCoreGraphQL.GraphQL
 
         public IQueryable<Post> Posts() => CreateDataContext().Posts;
 
+        [UseSorting]
+        [UseFiltering]
         public IQueryable<Comment> Comments() => CreateDataContext().Comments;
 
         public IQueryable<Comment> PostComments(int postId) => CreateDataContext().Comments.Where(c => c.PostId == postId);
