@@ -9,16 +9,5 @@ namespace AspCoreGraphQL.Entities.Context
         public GraphQLDataContext(DbContextOptions<DataContext> options, ILogger<DataContext> logger) : base(options, logger)
         {
         }
-
-        public override void Dispose()
-        {
-            base.Dispose();
-        }
-
-        public override ValueTask DisposeAsync()
-        {
-            return base.DisposeAsync();
-        }
-
     }
 }
