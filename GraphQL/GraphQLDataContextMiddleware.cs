@@ -27,8 +27,9 @@ namespace AspCoreGraphQL.GraphQL
         {
             using (var scope = serviceProvider.CreateScope())
             {
-                var dbFactory = scope.ServiceProvider.GetRequiredService<ScopedDbContextFactory>();
-                context.Items.Add("dbFactory", dbFactory);
+                Func<DataContext> dbFactoryFunc = () => scope.ServiceProvider.GetRequiredService<GraphQLDataContext>();
+                context.Items.Add("dbFactoryFunc", dbFactoryFunc);
+
                 await next(context);
             }
         }

@@ -9,6 +9,7 @@ using HotChocolate.Types;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System.Threading;
+using AspCoreGraphQL.Entities.Context;
 
 namespace AspCoreGraphQL.GraphQL
 {
@@ -25,15 +26,15 @@ namespace AspCoreGraphQL.GraphQL
 
         public IQueryable<Post> Posts()
         {
-            var dbFactory = (ScopedDbContextFactory)(httpContextAccessor.HttpContext.Items["dbFactory"]);
-            var db = dbFactory.Create();
+            var dbFactoryFunc = (Func<DataContext>)(httpContextAccessor.HttpContext.Items["dbFactoryFunc"]);
+            var db = dbFactoryFunc();
             return db.Posts;
         }
 
         public IQueryable<Comment> Comments()
         {
-            var dbFactory = (ScopedDbContextFactory)(httpContextAccessor.HttpContext.Items["dbFactory"]);
-            var db = dbFactory.Create();
+            var dbFactoryFunc = (Func<DataContext>)(httpContextAccessor.HttpContext.Items["dbFactoryFunc"]);
+            var db = dbFactoryFunc();
             return db.Comments;
         }
     }

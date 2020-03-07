@@ -41,8 +41,8 @@ namespace AspCoreGraphQL.GraphQL.Resolvers
         {
             var dataLoader = context.GroupDataLoader<int, Comment>("postComments", async keys =>
             {
-                var dbFactory = (ScopedDbContextFactory)(httpContextAccessor.HttpContext.Items["dbFactory"]);
-                var db = dbFactory.Create();
+                var dbFactoryFunc = (Func<DataContext>)(httpContextAccessor.HttpContext.Items["dbFactoryFunc"]);
+                var db = dbFactoryFunc();
                 var comments = await db.Comments.Where(c => keys.Contains(c.PostId)).ToListAsync();
                 return comments.ToLookup(c => c.PostId);
             });
@@ -53,8 +53,8 @@ namespace AspCoreGraphQL.GraphQL.Resolvers
         {
             var dataLoader = context.GroupDataLoader<int, Tag>("postTags", async keys =>
             {
-                var dbFactory = (ScopedDbContextFactory)(httpContextAccessor.HttpContext.Items["dbFactory"]);
-                var db = dbFactory.Create();
+                var dbFactoryFunc = (Func<DataContext>)(httpContextAccessor.HttpContext.Items["dbFactoryFunc"]);
+                var db = dbFactoryFunc();
                 var q = from pt in db.PostTags
                         join t in db.Tags on pt.TagId equals t.Id
                         where keys.Contains(pt.PostId)

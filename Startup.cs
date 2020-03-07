@@ -36,7 +36,6 @@ namespace AspCoreGraphQL
             services.AddDbContext<DataContext>(b => b.UseSqlite(Program.DbConnection).EnableSensitiveDataLogging());
             //this is transient, so that we can create a new one in every field resolver
             services.AddDbContext<GraphQLDataContext>(b => b.UseSqlite(Program.DbConnection).EnableSensitiveDataLogging(), ServiceLifetime.Transient, ServiceLifetime.Transient);
-            services.AddScoped<ScopedDbContextFactory>();
             services.AddHttpContextAccessor();
 
 
