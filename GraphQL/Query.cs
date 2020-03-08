@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System.Threading;
 using AspCoreGraphQL.Entities.Context;
+using HotChocolate.Types.Relay;
 
 namespace AspCoreGraphQL.GraphQL
 {
@@ -25,6 +26,8 @@ namespace AspCoreGraphQL.GraphQL
 
         public IQueryable<Post> Posts() => CreateDataContext().Posts;
 
+        //Attribute order matters
+        [UsePaging]
         [UseSorting]
         [UseFiltering]
         public IQueryable<Comment> Comments() => CreateDataContext().Comments;

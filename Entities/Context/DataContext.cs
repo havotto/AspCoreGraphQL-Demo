@@ -47,7 +47,7 @@ namespace AspCoreGraphQL.Entities.Context
             modelBuilder.Entity<Comment>(e =>
             {
                 e.HasKey(e => e.Id);
-                e.HasOne<Post>().WithMany().HasForeignKey(nameof(Comment.PostId)).OnDelete(DeleteBehavior.Cascade);
+                e.HasOne<Post>().WithMany().HasForeignKey(_ => _.PostId).OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<Tag>(e =>
@@ -58,8 +58,8 @@ namespace AspCoreGraphQL.Entities.Context
             modelBuilder.Entity<PostTag>(e =>
             {
                 e.HasKey(e => new { e.PostId, e.TagId });
-                e.HasOne<Post>().WithMany().HasForeignKey(nameof(PostTag.PostId)).OnDelete(DeleteBehavior.Cascade);
-                e.HasOne<Tag>().WithMany().HasForeignKey(nameof(PostTag.TagId)).OnDelete(DeleteBehavior.Cascade);
+                e.HasOne<Post>().WithMany().HasForeignKey(_ => _.PostId).OnDelete(DeleteBehavior.Cascade);
+                e.HasOne<Tag>().WithMany().HasForeignKey(_ => _.TagId).OnDelete(DeleteBehavior.Cascade);
             });
         }
     }

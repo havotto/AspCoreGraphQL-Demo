@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace AspCoreGraphQL.Entities.Seed
@@ -9,11 +10,14 @@ namespace AspCoreGraphQL.Entities.Seed
                 Id=1,
                 Title="Post1",
                 Text="Post1 text",
+                CreatedAt=new DateTime(2020,03,5,12,34,56),
+                PublishedAt=new DateTimeOffset(2020,3,7,20,0,0,TimeSpan.Zero),
             },
             new Post{
                 Id=2,
                 Title="Post2",
                 Text="Post2 text",
+                CreatedAt=new DateTime(2020,06,6,11,22,33),
             },
         };
 

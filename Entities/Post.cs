@@ -1,4 +1,6 @@
+using System;
 using System.ComponentModel.DataAnnotations;
+using HotChocolate;
 
 namespace AspCoreGraphQL.Entities
 {
@@ -8,5 +10,7 @@ namespace AspCoreGraphQL.Entities
         [Required(ErrorMessage = "Title is required")]
         public string Title { get; set; } = "";
         public string? Text { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTimeOffset? PublishedAt { get; set; }
     }
 }
