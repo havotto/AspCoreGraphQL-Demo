@@ -26,12 +26,14 @@ namespace AspCoreGraphQL.GraphQL
 
         public IQueryable<Tag> Tags() => CreateDataContext().Tags;
 
-        [UseSorting]
+        [UseSelection]
         [UseFiltering]
+        [UseSorting]
         public IQueryable<Post> Posts() => CreateDataContext().Posts;
 
-        //Attribute order matters
+        //Attribute order matters: filter and sort must be before selection and paging
         [UsePaging]
+        [UseSelection]
         [UseSorting]
         [UseFiltering]
         public IQueryable<Comment> Comments() => CreateDataContext().Comments;
