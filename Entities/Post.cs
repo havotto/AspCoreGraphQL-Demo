@@ -12,5 +12,7 @@ namespace AspCoreGraphQL.Entities
         public string? Text { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? PublishedAt { get; set; }
+
+        public int IgnoredMethod() => 2;
     }
 }

@@ -18,6 +18,7 @@ using AspCoreGraphQL.GraphQL;
 using AspCoreGraphQL.GraphQL.Resolvers;
 using AspCoreGraphQL.Entities;
 using HotChocolate.Execution.Configuration;
+using AspCoreGraphQL_Demo.GraphQL.Types;
 
 namespace AspCoreGraphQL
 {
@@ -46,7 +47,7 @@ namespace AspCoreGraphQL
             services.AddGraphQL(sp => SchemaBuilder.New()
                                                    .AddServices(sp)
                                                    .AddQueryType<Query>()
-            .AddType<Post>()
+            .AddType<PostType>()
             .AddType<Comment>()
             .AddType<PostResolvers>()
             .AddType<TagResolvers>()
