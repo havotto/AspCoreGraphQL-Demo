@@ -36,6 +36,10 @@ namespace AspCoreGraphQL.GraphQL.Resolvers
         {
             this.logger = logger;
         }
+
+        //here sorting and filtering is performed in memory bacause with dataloader this cannot be done at DB level
+        [UseSorting]
+        [UseFiltering]
         public async Task<Comment[]> Comments([Parent]Post post, IResolverContext context)
         {
             var dataLoader = context.GroupDataLoader<int, Comment>("postComments", async keys =>
@@ -62,5 +66,6 @@ namespace AspCoreGraphQL.GraphQL.Resolvers
             });
             return await dataLoader.LoadAsync(post.Id, CancellationToken.None);
         }
+
     }
 }

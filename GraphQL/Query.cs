@@ -24,6 +24,10 @@ namespace AspCoreGraphQL.GraphQL
             this.logger = logger;
         }
 
+        public IQueryable<Tag> Tags() => CreateDataContext().Tags;
+
+        [UseSorting]
+        [UseFiltering]
         public IQueryable<Post> Posts() => CreateDataContext().Posts;
 
         //Attribute order matters
