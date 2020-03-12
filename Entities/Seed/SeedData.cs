@@ -11,7 +11,7 @@ namespace AspCoreGraphQL.Entities.Seed
                 Title="Post1",
                 Text="Post1 text",
                 CreatedAt=new DateTime(2020,03,5,12,34,56),
-                PublishedAt=new DateTimeOffset(2020,3,7,20,0,0,TimeSpan.Zero),
+                PublishedAt=new DateTime(2020,3,7,20,0,0),
             },
             new Post{
                 Id=2,
