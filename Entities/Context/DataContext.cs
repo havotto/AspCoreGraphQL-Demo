@@ -42,6 +42,8 @@ namespace AspCoreGraphQL.Entities.Context
             modelBuilder.Entity<Post>(e =>
             {
                 e.HasKey(e => e.Id);
+                //SQLite does not support decimal, this way we can use decimal comparison in LINQ:
+                e.Property(e => e.Rating).HasConversion<double>();
             });
 
             modelBuilder.Entity<Comment>(e =>

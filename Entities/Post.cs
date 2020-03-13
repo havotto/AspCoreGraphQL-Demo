@@ -13,6 +13,7 @@ namespace AspCoreGraphQL.Entities
         public DateTime CreatedAt { get; set; }
         public DateTime? PublishedAt { get; set; }
 
+        public decimal Rating { get; set; }
         public int IgnoredMethod() => 2;
     }
 }

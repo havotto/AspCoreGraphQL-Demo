@@ -12,12 +12,14 @@ namespace AspCoreGraphQL.Entities.Seed
                 Text="Post1 text",
                 CreatedAt=new DateTime(2020,03,5,12,34,56),
                 PublishedAt=new DateTime(2020,3,7,20,0,0),
+                Rating=3.45678901234567890123m,
             },
             new Post{
                 Id=2,
                 Title="Post2",
                 Text="Post2 text",
                 CreatedAt=new DateTime(2020,06,6,11,22,33),
+                Rating=-3.45678901234567890123456m,
             },
         };
 
