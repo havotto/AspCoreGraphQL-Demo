@@ -9,6 +9,11 @@ namespace AspCoreGraphQL.Entities
         public int Id { get; set; }
         [Required(ErrorMessage = "Title is required")]
         public string Title { get; set; } = "";
+
+        /// <summary>
+        /// The text of the post
+        /// </summary>
+        /// <value></value>
         public string? Text { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? PublishedAt { get; set; }

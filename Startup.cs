@@ -48,6 +48,7 @@ namespace AspCoreGraphQL
 
             services.AddDataLoaderRegistry();
             services.AddGraphQL(sp => SchemaBuilder.New()
+            .ModifyOptions(o => o.UseXmlDocumentation = true)
                                                    .AddServices(sp)
                                                    .AddQueryType<Query>()
             .AddType<PostType>()
