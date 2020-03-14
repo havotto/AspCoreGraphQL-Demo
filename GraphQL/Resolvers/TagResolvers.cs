@@ -17,9 +17,9 @@ namespace AspCoreGraphQL.GraphQL.Resolvers
     [ExtendObjectType(Name = nameof(Tag))]
     public class TagResolvers : ResolverBase
     {
-        private readonly ILogger<PostResolvers> logger;
+        private readonly ILogger<TagResolvers> logger;
 
-        public TagResolvers([Service] IHttpContextAccessor httpContextAccessor, [Service] ILogger<PostResolvers> logger)
+        public TagResolvers([Service] IHttpContextAccessor httpContextAccessor, [Service] ILogger<TagResolvers> logger)
         : base(httpContextAccessor)
         {
             this.logger = logger;
