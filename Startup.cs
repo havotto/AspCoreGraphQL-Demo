@@ -21,6 +21,7 @@ using HotChocolate.Execution.Configuration;
 using AspCoreGraphQL_Demo.GraphQL.Types;
 using System.Diagnostics;
 using AspCoreGraphQL.GraphQL.Middlewares;
+using AspCoreGraphQL.GraphQL.Directives;
 
 namespace AspCoreGraphQL
 {
@@ -54,6 +55,7 @@ namespace AspCoreGraphQL
             .AddType<PostResolvers>()
             .AddType<TagResolvers>()
             .AddType<CommentResolvers>()
+            .AddDirectiveType<AppenderDirectiveType>()
             .Use<ToUpperMiddleware>()
             .Use(next => context =>
             {
