@@ -19,6 +19,8 @@ using AspCoreGraphQL.GraphQL.Resolvers;
 using AspCoreGraphQL.Entities;
 using HotChocolate.Execution.Configuration;
 using AspCoreGraphQL_Demo.GraphQL.Types;
+using System.Diagnostics;
+using AspCoreGraphQL.GraphQL.Middlewares;
 
 namespace AspCoreGraphQL
 {
@@ -52,6 +54,12 @@ namespace AspCoreGraphQL
             .AddType<PostResolvers>()
             .AddType<TagResolvers>()
             .AddType<CommentResolvers>()
+            .Use<ToUpperMiddleware>()
+            .Use(next => context =>
+            {
+                //inline global field middleware
+                return next(context);
+            })
                                                    .Create(), new QueryExecutionOptions
                                                    {
                                                        IncludeExceptionDetails = true,
