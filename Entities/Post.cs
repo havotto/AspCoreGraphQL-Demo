@@ -4,7 +4,7 @@ using HotChocolate;
 
 namespace AspCoreGraphQL.Entities
 {
-    public class Post
+    public class Post : IHasId<int>
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "Title is required")]

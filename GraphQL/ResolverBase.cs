@@ -1,6 +1,12 @@
 using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using AspCoreGraphQL.Entities;
 using AspCoreGraphQL.Entities.Context;
+using HotChocolate.Resolvers;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace AspCoreGraphQL.GraphQL
 {
@@ -17,5 +23,29 @@ namespace AspCoreGraphQL.GraphQL
             var dbFactoryFunc = (Func<DataContext>)(httpContextAccessor.HttpContext.Items["dbFactoryFunc"]);
             return dbFactoryFunc();
         }
+
+        /// <summary>
+        /// Loads entities with BatchDataLoader
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="dataLoaderKey"></param>
+        /// <param name="key"></param>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="TValue"></typeparam>
+        /// <returns></returns>
+        protected async Task<TValue> LoadByIdAsync<TKey, TValue>(
+            IResolverContext context, TKey key)
+        where TValue : class, IHasId<TKey>
+        {
+            var dataLoader = context.BatchDataLoader<TKey, TValue>(typeof(TValue).FullName, async keys =>
+            {
+                var db = CreateDataContext();
+                return await db.Set<TValue>()
+                    .Where(p => keys.Contains(p.Id))
+                    .ToDictionaryAsync(p => p.Id);
+            });
+            return await dataLoader.LoadAsync(key, CancellationToken.None);
+        }
+
     }
 }

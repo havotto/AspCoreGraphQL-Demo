@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,14 +28,8 @@ namespace AspCoreGraphQL.GraphQL.Resolvers
 
         public async Task<Post> Post([Parent]Comment comment, IResolverContext context)
         {
-            var dataLoader = context.BatchDataLoader<int, Post>("commentPost", async keys =>
-            {
-                var db = CreateDataContext();
-                return await db.Posts
-                    .Where(p => keys.Contains(p.Id))
-                    .ToDictionaryAsync(p => p.Id);
-            });
-            return await dataLoader.LoadAsync(comment.PostId, CancellationToken.None);
+            return await LoadByIdAsync<int, Post>(context, comment.PostId);
         }
+
     }
 }
