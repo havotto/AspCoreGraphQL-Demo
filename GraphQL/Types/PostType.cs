@@ -1,8 +1,5 @@
-using System.Collections.Generic;
 using AspCoreGraphQL.Entities;
-using HotChocolate.Configuration;
 using HotChocolate.Types;
-using HotChocolate.Types.Descriptors.Definitions;
 
 namespace AspCoreGraphQL_Demo.GraphQL.Types
 {
