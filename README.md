@@ -15,7 +15,7 @@ Open the GraphQL playground at to execute queries: http://localhost:5000/graphql
  - ASP.NET Core 3.1
  - EF Core 3.1
  - SQLite
- - HotChocolate 10.3.6
+ - HotChocolate 10.4.0-rc.0
 
 ## Domain model
 Post, Comment, Tag
