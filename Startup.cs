@@ -51,6 +51,7 @@ namespace AspCoreGraphQL
             .AddType<Comment>()
             .AddType<PostResolvers>()
             .AddType<TagResolvers>()
+            .AddType<CommentResolvers>()
                                                    .Create(), new QueryExecutionOptions
                                                    {
                                                        IncludeExceptionDetails = true,
