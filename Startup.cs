@@ -66,6 +66,8 @@ namespace AspCoreGraphQL
                                                    .Create(), new QueryExecutionOptions
                                                    {
                                                        IncludeExceptionDetails = true,
+                                                       //set http header to trace: {"GraphQL-Tracing": 1}
+                                                       TracingPreference = TracingPreference.OnDemand,
                                                    });
         }
 
