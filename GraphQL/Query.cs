@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using System.Threading;
 using AspCoreGraphQL.Entities.Context;
 using HotChocolate.Types.Relay;
+using System.Threading.Tasks;
 
 namespace AspCoreGraphQL.GraphQL
 {
@@ -30,6 +31,11 @@ namespace AspCoreGraphQL.GraphQL
         [UseFiltering]
         [UseSorting]
         public IQueryable<Post> Posts() => CreateDataContext().Posts;
+
+        public async Task<Post?> Post(int id, IResolverContext context){
+            return await LoadByIdAsync<int, Post>(context, id);
+        }
+
 
         //Attribute order matters: filter and sort must be before selection and paging
         [UsePaging]
