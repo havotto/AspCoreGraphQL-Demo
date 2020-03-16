@@ -9,7 +9,7 @@ namespace AspCoreGraphQL.Controllers
 {
     [ApiController]
     [Route("api/posts")]
-    public class PostController
+    public class PostController : ControllerBase
     {
         private readonly DataContext db;
         public PostController(DataContext db)

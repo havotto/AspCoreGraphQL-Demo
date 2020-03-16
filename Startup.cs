@@ -22,6 +22,7 @@ using AspCoreGraphQL_Demo.GraphQL.Types;
 using System.Diagnostics;
 using AspCoreGraphQL.GraphQL.Middlewares;
 using AspCoreGraphQL.GraphQL.Directives;
+using AspCoreGraphQL_Demo.Dto;
 
 namespace AspCoreGraphQL
 {
@@ -52,7 +53,6 @@ namespace AspCoreGraphQL
                                                    .AddServices(sp)
                                                    .AddQueryType<Query>()
             .AddType<PostType>()
-            .AddType<Comment>()
             .AddType<PostResolvers>()
             .AddType<TagResolvers>()
             .AddType<CommentResolvers>()

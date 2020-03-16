@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System;
 using System.Linq;
 using System.Threading;
@@ -16,6 +17,8 @@ namespace AspCoreGraphQL.GraphQL
         protected ResolverBase(IHttpContextAccessor httpContextAccessor)
         {
             this.httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
+            HttpContext = httpContextAccessor.HttpContext;
+            User = HttpContext.User;
         }
 
         protected DataContext CreateDataContext()
@@ -23,6 +26,9 @@ namespace AspCoreGraphQL.GraphQL
             var dbFactoryFunc = (Func<DataContext>)(httpContextAccessor.HttpContext.Items["dbFactoryFunc"]);
             return dbFactoryFunc();
         }
+
+        protected HttpContext HttpContext { get; }
+        protected ClaimsPrincipal User { get; }
 
         /// <summary>
         /// Loads entities with BatchDataLoader

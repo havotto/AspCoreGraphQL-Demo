@@ -12,6 +12,7 @@ using System.Threading;
 using AspCoreGraphQL.Entities.Context;
 using HotChocolate.Types.Relay;
 using System.Threading.Tasks;
+using AspCoreGraphQL_Demo.Dto;
 
 namespace AspCoreGraphQL.GraphQL
 {
@@ -25,6 +26,11 @@ namespace AspCoreGraphQL.GraphQL
             this.logger = logger;
         }
 
+
+        public ClaimsPrincipalDto CurrentPrincipal(IResolverContext context){
+            return new ClaimsPrincipalDto(User);
+        }
+        
         public IQueryable<Tag> Tags() => CreateDataContext().Tags;
 
         //[UseSelection]
