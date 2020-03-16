@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Collections.Generic;
 using System;
 using System.Linq;
@@ -13,6 +14,7 @@ using AspCoreGraphQL.Entities.Context;
 using HotChocolate.Types.Relay;
 using System.Threading.Tasks;
 using AspCoreGraphQL_Demo.Dto;
+using HotChocolate.AspNetCore.Authorization;
 
 namespace AspCoreGraphQL.GraphQL
 {
@@ -27,10 +29,12 @@ namespace AspCoreGraphQL.GraphQL
         }
 
 
-        public ClaimsPrincipalDto CurrentPrincipal(IResolverContext context){
+        public ClaimsPrincipalDto CurrentPrincipal(IResolverContext context)
+        {
             return new ClaimsPrincipalDto(User);
         }
-        
+
+        [Authorize]
         public IQueryable<Tag> Tags() => CreateDataContext().Tags;
 
         //[UseSelection]
@@ -38,7 +42,8 @@ namespace AspCoreGraphQL.GraphQL
         [UseSorting]
         public IQueryable<Post> Posts() => CreateDataContext().Posts;
 
-        public async Task<Post?> Post(int id, IResolverContext context){
+        public async Task<Post?> Post(int id, IResolverContext context)
+        {
             return await LoadByIdAsync<int, Post>(context, id);
         }
 
