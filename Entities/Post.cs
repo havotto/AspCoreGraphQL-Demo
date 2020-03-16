@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using HotChocolate;
+using HotChocolate.AspNetCore.Authorization;
 
 namespace AspCoreGraphQL.Entities
 {
@@ -18,6 +19,7 @@ namespace AspCoreGraphQL.Entities
         public DateTime CreatedAt { get; set; }
         public DateTime? PublishedAt { get; set; }
 
+        [Authorize]
         public decimal Rating { get; set; }
         public int IgnoredMethod() => 2;
     }
