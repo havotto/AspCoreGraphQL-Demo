@@ -29,6 +29,7 @@ namespace AspCoreGraphQL.GraphQL
         }
 
 
+        [Authorize]
         public ClaimsPrincipalDto CurrentPrincipal(IResolverContext context)
         {
             return new ClaimsPrincipalDto(User);
@@ -40,6 +41,7 @@ namespace AspCoreGraphQL.GraphQL
         //[UseSelection]
         [UseFiltering]
         [UseSorting]
+        [Authorize]
         public IQueryable<Post> Posts() => CreateDataContext().Posts;
 
         public async Task<Post?> Post(int id, IResolverContext context)
@@ -53,8 +55,10 @@ namespace AspCoreGraphQL.GraphQL
         //[UseSelection]
         [UseSorting]
         [UseFiltering]
+        [Authorize]
         public IQueryable<Comment> Comments() => CreateDataContext().Comments;
 
+        [Authorize]
         public IQueryable<Comment> PostComments(int postId) => CreateDataContext().Comments.Where(c => c.PostId == postId);
     }
 }

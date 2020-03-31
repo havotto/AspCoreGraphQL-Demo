@@ -19,7 +19,7 @@ namespace AspCoreGraphQL.Entities
         public DateTime CreatedAt { get; set; }
         public DateTime? PublishedAt { get; set; }
 
-        [Authorize]
+        [Authorize(Policy="CanSeeRatings")]
         public decimal Rating { get; set; }
         public int IgnoredMethod() => 2;
     }
